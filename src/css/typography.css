@@ -1,0 +1,90 @@
+@custom-media --mq-medium (max-width: 800px);
+@custom-media --mq-small (max-width: 550px);
+
+@font-face {
+    font-family: "Jost";
+    font-weight: 400;
+    src: url(fonts/jost-book.woff2), url(fonts/jost-book.woff);
+}
+
+@font-face {
+    font-family: "Jost";
+    font-weight: 700;
+    src: url(fonts/jost-semi.woff2), url(fonts/jost-semi.woff);
+}
+
+@font-face {
+    font-family: "Bagnard";
+    src: url(fonts/Bagnard.woff2), url(fonts/Bagnard.woff);
+}
+
+:root {
+    --title-font: "Bagnard";
+    --body-font: "Jost";
+    --h1-size: 96px;
+    --h2-size: 64px;
+    --h3-size: 32px;
+    --body-size: 24px;
+    --button-size: 16px;
+    --line-height-copy: 1.5;
+    --line-height-title: 1.25;
+    --line-height-solid: 1.1;
+}
+
+@media (--mq-medium) {
+    :root {
+        --h1-size: 64px;
+        --h2-size: 48px;
+        --h3-size: 24px;
+        --body-size: 16px;
+        --button-size: 14px;
+    }
+}
+
+@media (--mq-small) {
+    :root {
+        --h1-size: 40px;
+        --h2-size: 32px;
+        --h3-size: 24px;
+        --body-size: 16px;
+        --button-size: 14px;
+    }
+}
+
+body {
+    font-family: var(--body-font);
+    line-height: var(--line-height-copy);
+    font-size: var(--body-size);
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--title-font);
+
+}
+
+h1 {
+    font-size: var(--h1-size);
+    line-height: var(--line-height-solid);
+
+}
+
+h2 {
+    font-size: var(--h2-size);
+    line-height: var(--line-height-solid);
+
+}
+
+h3 {
+    font-size: var(--h3-size);
+    line-height: var(--line-height-title);
+}
+
+.button {
+    font-size: var(--button-size);
+    letter-spacing: 3px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+}
