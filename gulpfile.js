@@ -1,22 +1,38 @@
 var gulp = require('gulp')
-var sass = require('gulp-sass')
+
 var cleanCss = require('gulp-clean-css')
 var sourcemaps = require('gulp-sourcemaps')
+var postcss = require("gulp-postcss")
+var concat = require("gulp-concat")
+
 var browserSync = require('browser-sync').create();
+
 var imagemin = require("gulp-imagemin")
 
+var ghpages = require("gh-pages")
 
-sass.compiler = require('node-sass')
 
-gulp.task("sass", function () {
+gulp.task("css", function () {
     //we want to run "sass css/app.scss app.css --watch"
-    return gulp.src("src/css/app.scss")
+    return gulp.src([
+            "src/css/reset.css",
+            "src/css/typography.css",
+            "src/css/app.css"
+        ])
         //creats the sourcemap
         .pipe(sourcemaps.init())
 
         //compiles the sass
-        .pipe(sass())
+        .pipe(
+            postcss([
+                require('autoprefixer'),
+                require('postcss-preset-env')({
+                    stage: 1,
+                    browsers: ["IE 11", "last 2 versions"]
+                })
 
+            ]))
+        .pipe(concat("app.css"))
         //minifies the css file
         .pipe(
             cleanCss({
@@ -68,11 +84,15 @@ gulp.task("watch", function () {
         }
     })
     gulp.watch("src/*.html", gulp.series("html")).on('change', browserSync.reload);
-    gulp.watch("src/css/app.scss", gulp.series("sass"))
+    gulp.watch("src/css/*", gulp.series("css"))
     gulp.watch("src/fonts/*", gulp.series('fonts'))
     gulp.watch("src/img/*", gulp.series('images'))
 })
 
+gulp.task("deploy", function (done) {
+    ghpages.publish('dist', function (err) {});
+    done();
+})
 
 
-gulp.task("default", gulp.series("html", "sass", "fonts", "images", "watch"))
+gulp.task("default", gulp.series("html", "css", "fonts", "images", "watch"))
